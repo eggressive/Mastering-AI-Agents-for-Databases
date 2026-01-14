@@ -1,22 +1,23 @@
 from langchain.schema import HumanMessage, SystemMessage
 import os
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
 
 # Load environment variables from .env file
 load_dotenv()
 
-openai_key = os.getenv("OPENAI_API_KEY")
+anthropic_key = os.getenv("ANTHROPIC_API_KEY")
 
-llm_name = "gpt-4.1-mini-2025-04-14"
+# Claude 3.5 Haiku is similar to gpt-4.1-mini (fast, efficient)
+# Claude 3.5 Sonnet is more capable (similar to gpt-4o)
+model_name = "claude-haiku-4-5-20251001"
 
 # Configure model for Factual Q&A (consistent, accurate responses)
-model = ChatOpenAI(
-    api_key=openai_key,
-    model=llm_name,
+model = ChatAnthropic(
+    api_key=anthropic_key,
+    model=model_name,
     temperature=0.0,      # Deterministic responses (no creativity)
     max_tokens=300,       # Concise answers
-    verbose=False         # Hide debug info
 )
 
 messages = [
@@ -38,7 +39,7 @@ def first_agent(messages):
 
 
 def run_agent():
-    print("Simple AI Agent: Type 'exit' to quit")
+    print("Simple AI Agent (Claude): Type 'exit' to quit")
     while True:
         user_input = input("You: ")
         if user_input.lower() == "exit":
