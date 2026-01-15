@@ -38,7 +38,7 @@ streamlit run use_case_classifier.py
 ### 📊 CSV Agent
 **File:** `csv_agent.py`
 **Purpose:** Interactive analysis of CSV data using Pandas
-**Model:** GPT-3.5-turbo
+**Model:** gpt-4.1-mini-2025-04-14
 **Run:**
 ```bash
 cd database-ai-agents-main
