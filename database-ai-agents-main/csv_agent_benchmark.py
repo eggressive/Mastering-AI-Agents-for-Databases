@@ -216,7 +216,6 @@ def compare_models():
     # Fastest vs Slowest
     print("\n🏆 FASTEST RESPONSES:")
     for i, test in enumerate(test_queries, 1):
-        query = test["query"]
         times = {}
         for model_name, model_results in results.items():
             result = model_results[i - 1]
