@@ -9,7 +9,7 @@ load_dotenv()
 
 openai_key = os.getenv("OPENAI_API_KEY")
 
-llm_name = "gpt-3.5-turbo"
+llm_name = "gpt-4.1-mini-2025-04-14"
 model = ChatOpenAI(api_key=openai_key, model=llm_name)
 
 # read csv file
@@ -26,6 +26,8 @@ agent = create_pandas_dataframe_agent(
     llm=model,
     df=df,
     verbose=True,
+    allow_dangerous_code=True,  # Required for pandas agent to execute Python code
+    max_iterations=30,  # Increase from default 15 to allow complex multi-step reasoning
 )
 # res = agent.invoke("how many rows are there in the dataframe?")
 
