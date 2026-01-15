@@ -3,8 +3,9 @@ Check available Anthropic Claude models.
 
 This script loads environment variables from a .env file. It searches for .env in:
 1. Current working directory
-2. Parent directories (up to 3 levels)
+2. Parent and grandparent directories
 3. database-ai-agents-main subdirectory (if it exists)
+4. Default load_dotenv() behavior (searches up directory tree)
 
 The .env file should contain:
     ANTHROPIC_API_KEY=your_api_key_here
@@ -21,7 +22,7 @@ from anthropic import Anthropic
 def find_and_load_dotenv():
     """
     Search for .env file in multiple locations and load it.
-    Returns True if .env was found and loaded, False otherwise.
+    Prints the location if found in explicit search paths.
     """
     # List of paths to search for .env file
     search_paths = [
@@ -36,11 +37,10 @@ def find_and_load_dotenv():
         if env_path.exists():
             load_dotenv(env_path)
             print(f"Loaded environment from: {env_path}")
-            return True
+            return
     
     # Try default load_dotenv() which searches up the directory tree
     load_dotenv()
-    return False
 
 
 # Load environment variables
