@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from anthropic import Anthropic
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv("../database-ai-agents-main/.env")
 
 anthropic_key = os.getenv("ANTHROPIC_API_KEY")
 

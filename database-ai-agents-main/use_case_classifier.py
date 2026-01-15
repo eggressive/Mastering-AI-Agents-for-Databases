@@ -1,7 +1,7 @@
 """
 Use Case Classifier - LLM as Judge Implementation
 
-This tool helps users determine whether their database/data systems task
+This tool helps users determine whether their database/data services task
 should be handled with:
 - Deterministic Automation (scripts, workflows)
 - Hybrid Approach (rules + ML augmentation)
@@ -45,7 +45,7 @@ def classify_use_case(use_case_description: str) -> str:
     Classify a use case using the LLM-as-Judge framework.
 
     Args:
-        use_case_description: Description of the database/data systems task
+        use_case_description: Description of the database/data services task
 
     Returns:
         Classification result with scores and recommendations
@@ -54,7 +54,7 @@ def classify_use_case(use_case_description: str) -> str:
     full_prompt = JUDGE_PROMPT.replace("{USE_CASE_DESCRIPTION}", use_case_description)
 
     messages = [
-        SystemMessage(content="You are an expert evaluator for Data Systems Engineering use cases. Follow the instructions precisely and provide rigorous, unbiased scoring."),
+        SystemMessage(content="You are an expert evaluator for Data Services Engineering use cases. Follow the instructions precisely and provide rigorous, unbiased scoring."),
         HumanMessage(content=full_prompt)
     ]
 
@@ -71,9 +71,9 @@ st.set_page_config(
 
 st.title("⚖️ DSE Use Case Classifier")
 st.markdown("""
-**LLM-as-Judge for Database & Data Systems Tasks**
+**LLM-as-Judge for Database & Data Services Tasks**
 
-Describe your database or data systems task below, and the AI judge will classify
+Describe your database or data services task below, and the AI judge will classify
 whether it needs:
 - **Deterministic Automation** (7-14 points): Scripts, workflows, rule-based systems
 - **Hybrid Approach** (15-21 points): Deterministic core + ML augmentation
@@ -100,7 +100,7 @@ with st.expander("📝 Example Use Cases (click to expand)"):
 
 # Input area
 use_case = st.text_area(
-    "Describe your database/data systems task:",
+    "Describe your database/data services task:",
     height=150,
     placeholder="Example: Create an automated system that monitors replication lag across our database clusters and triggers alerts when thresholds are exceeded..."
 )

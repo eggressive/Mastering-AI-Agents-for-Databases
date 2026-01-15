@@ -9,7 +9,6 @@ from sqlalchemy import create_engine
 import numpy as np
 from sqlalchemy import text
 from openai import OpenAI
-import streamlit as st
 
 import helpers
 from helpers import (
