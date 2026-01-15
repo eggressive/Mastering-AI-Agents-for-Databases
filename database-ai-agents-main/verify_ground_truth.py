@@ -3,9 +3,15 @@ Ground Truth Verification Script
 Directly calculates answers using pandas (no LLM) to verify agent accuracy
 """
 import pandas as pd
+import os
 
 # Load the data
-df = pd.read_csv("./data/salaries_2023.csv").fillna(value=0)
+csv_path = "./data/salaries_2023.csv"
+if not os.path.exists(csv_path):
+    raise FileNotFoundError(
+        f"Required data file not found at '{csv_path}'. Please ensure the salaries CSV is available."
+    )
+df = pd.read_csv(csv_path).fillna(value=0)
 
 print("=" * 80)
 print("GROUND TRUTH VERIFICATION - Direct Pandas Calculations")
