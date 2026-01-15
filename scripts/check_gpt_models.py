@@ -1,9 +1,50 @@
+"""
+Check available OpenAI GPT models.
+
+This script loads environment variables from a .env file. It searches for .env in:
+1. Current working directory
+2. Parent directories (up to 3 levels)
+3. database-ai-agents-main subdirectory (if it exists)
+
+The .env file should contain:
+    OPENAI_API_KEY=your_api_key_here
+
+Usage:
+    python check_gpt_models.py
+"""
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# Load environment variables from .env file
-load_dotenv("../database-ai-agents-main/.env")
+
+def find_and_load_dotenv():
+    """
+    Search for .env file in multiple locations and load it.
+    Returns True if .env was found and loaded, False otherwise.
+    """
+    # List of paths to search for .env file
+    search_paths = [
+        Path.cwd() / ".env",  # Current directory
+        Path.cwd().parent / ".env",  # Parent directory
+        Path.cwd().parent.parent / ".env",  # Grandparent directory
+        Path.cwd() / "database-ai-agents-main" / ".env",  # Subdirectory
+        Path.cwd().parent / "database-ai-agents-main" / ".env",  # Parent's subdirectory
+    ]
+    
+    for env_path in search_paths:
+        if env_path.exists():
+            load_dotenv(env_path)
+            print(f"Loaded environment from: {env_path}")
+            return True
+    
+    # Try default load_dotenv() which searches up the directory tree
+    load_dotenv()
+    return False
+
+
+# Load environment variables
+find_and_load_dotenv()
 
 openai_key = os.getenv("OPENAI_API_KEY")
 
