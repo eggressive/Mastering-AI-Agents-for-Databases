@@ -2,10 +2,10 @@
 Check available Anthropic Claude models.
 
 This script loads environment variables from a .env file. It searches for .env in:
-1. Current working directory
-2. Parent and grandparent directories
-3. database-ai-agents-main subdirectory (if it exists)
-4. Default load_dotenv() behavior (searches up directory tree)
+1. Script's directory
+2. Repository root (parent of scripts/)
+3. Grandparent directory (in case script is nested deeper)
+4. database-ai-agents-main subdirectory relative to repo root
 
 The .env file should contain:
     ANTHROPIC_API_KEY=your_api_key_here
@@ -23,14 +23,18 @@ def find_and_load_dotenv():
     """
     Search for .env file in multiple locations and load it.
     Prints the location if found in explicit search paths.
+    Anchored to script's directory to avoid loading unrelated .env files.
     """
+    # Anchor search to script's directory, not caller's cwd
+    script_dir = Path(__file__).resolve().parent
+    repo_root = script_dir.parent  # Assume scripts/ is one level below repo root
+    
     # List of paths to search for .env file
     search_paths = [
-        Path.cwd() / ".env",  # Current directory
-        Path.cwd().parent / ".env",  # Parent directory
-        Path.cwd().parent.parent / ".env",  # Grandparent directory
-        Path.cwd() / "database-ai-agents-main" / ".env",  # Subdirectory
-        Path.cwd().parent / "database-ai-agents-main" / ".env",  # Parent's subdirectory
+        script_dir / ".env",  # Script's directory
+        repo_root / ".env",  # Repository root
+        repo_root.parent / ".env",  # Grandparent (if repo is nested)
+        repo_root / "database-ai-agents-main" / ".env",  # Subdirectory
     ]
     
     for env_path in search_paths:
