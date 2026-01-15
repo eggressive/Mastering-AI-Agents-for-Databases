@@ -1,0 +1,205 @@
+# DSE Use Case Classification (V7): Anti-Hallucination Enhanced
+
+## Instructions for the LLM
+
+You are an expert in Data Systems Engineering (DSE) and workflow automation. Your task is to evaluate a database/data systems use case and classify it using a rigorous scoring framework.
+
+**IMPORTANT: Follow this process strictly:**
+1.  Score each of the 7 criteria independently (1-5) based on the guidelines below.
+2.  Sum the scores to get a total (from 7 to 35).
+3.  Classify the use case based **ONLY** on the total score. Do not adjust the classification based on intuition; the score is the final determinant.
+
+## Classification Categories
+
+-   **7-14 points**: **Deterministic Automation** (This is the most common category for operational DSE tasks).
+-   **15-21 points**: **Hybrid Approach** (A deterministic core with intelligent augmentation, like ML-based monitoring or recommendations).
+-   **22-35 points**: **Agentic Approach** (Requires AI reasoning, inference, and adaptation. This should be the exception, not the rule).
+
+**Calibration Note**: A score of 14 is still **Deterministic**. A score of 21 is still **Hybrid**. Do not classify a task as Hybrid simply because it seems complex; if the score is 14 or less, it is Deterministic.
+
+---
+
+## Pre-Scoring Grounding Check
+
+Before evaluating, mentally reframe the use case:
+1. **Strip all adjectives** ("intelligent", "smart", "automated", "agentic")
+2. Ask: "What is the **CORE task** being performed?"
+3. Ask: "What are the actual **INPUTS and OUTPUTS**?"
+4. Ask: "What **DECISIONS** must be made, and can they be enumerated?"
+
+Then score based on this simplified understanding.
+
+---
+
+## Keyword Sensitivity Warning
+
+**DO NOT inflate scores based on terminology alone:**
+
+| Term | Common Misinterpretation | Reality |
+|------|-------------------------|---------|
+| "Intelligent monitoring" | Requires AI reasoning | Usually means threshold-based with dashboards |
+| "Anomaly detection" | Requires ML inference | Often statistical deviation from baseline (score 3, not 4) |
+| "Root cause analysis" | Requires deep reasoning | Can be enumerated decision tree if causes are known |
+| "Self-healing" / "Auto-heal" | Autonomous decision-making | Usually predefined remediation scripts triggered by conditions |
+| "Agentic workflow" | Must be Agentic classification | Marketing term; evaluate implementation, not name |
+| "AI-powered" / "ML-based" | Requires true AI | Often rule engines with statistical components |
+
+**Score based on ACTUAL implementation requirements, not buzzwords.**
+
+---
+
+## Scoring Framework
+
+Evaluate each criterion on a scale of 1-5. Be conservative with high scores.
+
+-   **Score 1**: Strongly deterministic characteristic.
+-   **Score 2**: Moderately deterministic characteristic.
+-   **Score 3**: Neutral or balanced (use sparingly).
+-   **Score 4**: Moderately agentic characteristic.
+-   **Score 5**: Strongly agentic characteristic (reserve for extreme cases like true natural language understanding or deep, uncodifiable expertise).
+
+---
+
+### 1. Problem Definition Clarity
+*Can the requirements be written as a complete, unambiguous specification document?*
+- **1**: Yes, with explicit rules (e.g., `DELETE WHERE date < '2024-01-01'`).
+- **2**: Yes, with clear parameters (e.g., "Archive data per retention policy").
+- **3**: Mostly, but implementation details are ambiguous (e.g., "Optimize database performance").
+- **4**: No, the goal is vague and requires interpretation (e.g., "Improve data quality").
+- **5**: No, it requires understanding user intent from natural language (e.g., "What does this data mean?").
+
+### 2. Input Variability
+*Can you list all possible input patterns in advance?*
+- **1**: Yes, fixed schema and predictable values (e.g., daily ETL from one source).
+- **2**: Yes, consistent structure but variable values (e.g., transaction processing).
+- **3**: Mostly, multiple formats but with known patterns (e.g., multi-source data integration).
+- **4**: No, inputs are highly variable (e.g., diverse query workloads).
+- **5**: No, inputs are unpredictable and unstructured (e.g., free-text, natural language).
+
+### 3. Decision Complexity
+*Can the logic be expressed in a flowchart?*
+- **1**: Yes, with simple boolean logic (e.g., `if-then-else`).
+- **2**: Yes, with nested but deterministic logic (e.g., multi-step data validation).
+- **3**: Yes, but it's a very complex flowchart (e.g., a rule engine with hundreds of rules).
+  - **DSE Example**: "If latency > X AND blocking = true AND resource Y > threshold, then action Z"
+  - **Note**: Even complex conditional logic is still a 3 if it CAN be fully specified upfront
+- **4**: No, it requires pattern matching or heuristics that **cannot be fully enumerated**.
+  - **DSE Example**: "Detect unusual query patterns based on historical baselines"
+- **5**: No, it requires inference, reasoning, or **explaining causation**.
+  - **DSE Example**: "Explain WHY this execution plan regressed"
+
+### 4. Error Impact & Tolerance
+*What is the business impact if the system makes a mistake?*
+- **1**: Critical; errors cause data loss or corruption (e.g., financial transactions).
+- **2**: Important; errors have a significant business impact (e.g., backup failures).
+- **3**: Moderate; errors are recoverable or have limited impact (e.g., a suboptimal index suggestion).
+- **4**: Low; the task is advisory or exploratory (e.g., capacity forecasting).
+- **5**: Experimental; errors are expected and part of the learning process.
+
+### 5. Domain Knowledge Encoding
+*Can a junior engineer implement this with a detailed requirements document?*
+- **1**: Yes, the rules are simple and universal.
+- **2**: Yes, the business rules can be clearly documented.
+- **3**: Yes, but requires specific expertise that **CAN BE CODIFIED**.
+  - **DSE**: Standard index selection rules, backup/restore procedures, replication setup
+- **4**: No, requires significant expertise that is **HARD TO DOCUMENT**.
+  - **DSE**: Performance tuning strategies, diagnosing intermittent failures
+- **5**: No, requires deep **INTUITIVE expertise** nearly impossible to codify.
+  - **DSE**: A senior DBA's "gut feel" about when to intervene
+
+### 6. Frequency & Volume
+*How often does this task run?*
+- **1**: Continuously or at very high frequency (e.g., real-time replication).
+- **2**: On a regular, predictable schedule (e.g., nightly batch jobs).
+- **3**: Periodically, but not on a fixed schedule (e.g., monthly reporting).
+- **4**: Occasionally and in response to events (e.g., incident response).
+- **5**: Rarely, for strategic purposes (e.g., architecture redesign).
+
+### 7. Change Management
+*How often do the core requirements change?*
+- **1**: Extremely stable (e.g., regulatory compliance rules).
+- **2**: Stable, with infrequent updates (e.g., backup policies).
+- **3**: Evolves with the business (e.g., data quality rules).
+- **4**: Changes frequently (e.g., application workload patterns).
+- **5**: Constantly adapting to dynamic priorities.
+
+---
+
+## High Score Justification (Required for 4+ on any dimension)
+
+For any score of 4 or 5, you MUST provide:
+- **Why not 3?** Explain what specifically cannot be handled by deterministic logic
+- **Evidence:** Point to specific phrases in the description requiring inference/pattern matching
+
+**If you cannot articulate why 3 is insufficient, revise the score down.**
+
+---
+
+## Contrastive Examples for Decision Complexity
+
+**Score 3 (Complex but Deterministic):**
+> "Monitor replication lag and apply corrective actions based on threshold-condition mappings"
+
+Complex rules, but finite and enumerable.
+
+**Score 4 (Requires Pattern Matching):**
+> "Detect replication issues by learning normal behavior patterns and flagging deviations"
+
+Cannot enumerate all possible anomalies upfront.
+
+**Score 5 (Requires Reasoning):**
+> "Explain to stakeholders why replication latency increased yesterday"
+
+Requires causal inference and natural language explanation.
+
+---
+
+## Agentic vs. Deterministic Checklist
+
+**A task is likely AGENTIC (22+) if it requires MULTIPLE of these:**
+-   [ ] **Natural Language Understanding**: Must interpret ambiguous human language.
+-   [ ] **Explaining "Why"**: Needs to provide reasoning, not just results.
+-   [ ] **Unstructured Pattern Recognition**: Finds patterns in logs, text, or metrics.
+-   [ ] **Trade-off Balancing**: Must weigh competing goals with no single right answer.
+-   [ ] **Uncodifiable Expertise**: Requires expertise that can't be written into rules.
+-   [ ] **Investigative Nature**: Is exploratory and seeks to discover insights.
+-   [ ] **Adaptation to Novelty**: Must handle situations not seen during its design.
+
+**A task is likely DETERMINISTIC (7-14) if it involves:**
+-   [ ] **Workflow Orchestration**: Executing a sequence of defined steps.
+-   [ ] **Data Integration**: Moving data between systems, even if complex.
+-   [ ] **Microservices Architecture**: Coordinating between different services.
+-   [ ] **Keyword-based "Intelligence"**: Using words like "smart" or "intelligent" for what is ultimately a rule-based process.
+-   [ ] **Runbook Execution**: Following documented procedures with known actions.
+
+---
+
+## Output Format
+
+**1. Criteria Scores**
+
+| Criterion | Score | Reasoning |
+|---|---|---|
+| Problem Definition Clarity | | |
+| Input Variability | | |
+| Decision Complexity | | |
+| Error Impact & Tolerance | | |
+| Domain Knowledge Encoding | | |
+| Frequency & Volume | | |
+| Change Management | | |
+| **TOTAL** | **XX** | |
+
+**2. High Score Justifications** (for any dimension scored 4+):
+- [Dimension]: Why not 3? [Explanation]
+
+**3. Classification**: [Deterministic Automation / Hybrid Approach / Agentic Approach]
+
+**4. Justification**: (2-3 sentences explaining why the score leads to this classification).
+
+**5. Implementation Recommendation**: (1-2 sentences suggesting the implementation approach).
+
+---
+
+## Use Case to Evaluate
+
+{USE_CASE_DESCRIPTION}
